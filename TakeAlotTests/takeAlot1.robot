@@ -1,9 +1,16 @@
 *** Settings ***
 Documentation       This is our first Robot Framework Test
+# Library section
 Library             SeleniumLibrary
 Library             ../customLibraries/chromedriversync.py
 Library    String
 Library    Collections
+# Resource section
+Resource    ../takeAlotPages/itemsPage.robot
+Resource    ../takeAlotPages/landingPage.robot
+Resource    ../takeAlotPages/dailyDealsPage.robot
+Resource    ../takeAlotPages/globalKeywords.robot
+
 Suite Setup         test setup
 Suite Teardown      Close Browser
 *** Variables ***
@@ -15,7 +22,9 @@ First test case
     Select from the dropdown list   Grey
     click size    M
     check title     Grey    M
-    check stock      Ships in 4-6 work days
+    check stock      Ships in 4 - 6 work days
+    go home
+    Click daily deals button
     #small prac
     #use the keyword docs (built in and selenium)
     #find a keyword to enter some search text into the takealot search input box
