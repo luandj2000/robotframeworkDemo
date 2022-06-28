@@ -4,10 +4,14 @@ Library             SeleniumLibrary
 Library    String
 Library    Collections
 
+*** Variables ***
+${cartAmount}
+${cartAmountDirty}
 *** Keywords ***
 
 goToHomePage
-
+    [Arguments]     ${url}
+    Go To    ${url}
 
 searchByTopMenuBarItem
     [Arguments]     ${item}
@@ -47,3 +51,19 @@ searchByCategoryMenu
         END
          
     END
+
+searchBar
+    [Arguments]     ${item}
+    Input Text    css:input#small-searchterms    ${item}
+    Click Element    css:form[method='get'] > .button-1.search-box-button
+
+cartItemAmount
+    ${cartAmountDirty}      Get Text    css:.cart-qty
+    ${cartAmountDirty}      Replace String Using Regexp    ${cartAmountDirty}    \\D    ${EMPTY}
+    TRY
+        ${cartAmount}       Convert To Integer      ${cartAmountDirty}
+    EXCEPT
+        Log    Failed to convert cartAmountDirty string to int.
+        ${cartAmount}       Convert To Integer      -1
+    END
+    Return From Keyword     ${cartAmount}
